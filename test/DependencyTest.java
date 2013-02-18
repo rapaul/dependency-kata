@@ -8,17 +8,18 @@ import org.junit.Test;
 
 public class DependencyTest {
 
+	private Dependency a = new Dependency("A");
+	private Dependency b = new Dependency("B");
+
 	@Test
 	public void noDependencies() {
 		Dependencies dependencies = new Dependencies();
-		assertThat(dependencies.getDependencyFor("A"), is(empty()));
+		assertThat(dependencies.getDependencyFor(a), is(empty()));
 	}
 
 	@Test
 	public void singleDirectDependency() throws Exception {
 		Dependencies dependencies = new Dependencies();
-		Dependency a = new Dependency("A");
-		Dependency b = new Dependency("B");
 		dependencies.addDirect(a, b);
 		assertThat(dependencies.getDependencyFor(a), contains(b));
 	}
