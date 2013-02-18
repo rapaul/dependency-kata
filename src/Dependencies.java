@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Dependencies {
 
-	private Map<Dependency, List<Dependency>> dependencies = new HashMap<Dependency, List<Dependency>>();
+	private Map<Dependency, List<Dependency>> allDependencies = new HashMap<Dependency, List<Dependency>>();
 
 	public void addDirect(Dependency item, Dependency dependency) {
 		List<Dependency> directDependencies = lazyInitialiseFor(item);
@@ -15,17 +15,22 @@ public class Dependencies {
 	}
 
 	private List<Dependency> lazyInitialiseFor(Dependency item) {
-		List<Dependency> directDependencies = dependencies.get(item);
+		List<Dependency> directDependencies = allDependencies.get(item);
 		if (directDependencies == null) {
 			directDependencies = new LinkedList<Dependency>();
-			dependencies.put(item, directDependencies);
+			allDependencies.put(item, directDependencies);
 		}
 		return directDependencies;
 	}
 
 	public List<Dependency> getDependencyFor(Dependency item) {
-		List<Dependency> deps = dependencies.get(item);
-		return deps == null ? Collections.<Dependency>emptyList() : deps;
+		List<Dependency> directDependencies = allDependencies.get(item);
+		if (directDependencies == null) { return Collections.<Dependency>emptyList(); }
+		List<Dependency> transitiveDependencies = new LinkedList<Dependency>(directDependencies);
+		for (Dependency directDependency : directDependencies) {
+			transitiveDependencies.addAll(getDependencyFor(directDependency));
+		}
+		return transitiveDependencies;
 	}
 
 }
