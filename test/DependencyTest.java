@@ -49,4 +49,12 @@ public class DependencyTest {
 		assertThat(dependencies.getDependencyFor(a), containsInAnyOrder(b, c));
 	}
 
+	@Test
+	public void includesDirectDependenciesOnceOnly() throws Exception {
+		Dependencies dependencies = new Dependencies();
+		dependencies.addDirect(a, b);
+		dependencies.addDirect(a, b);
+		assertThat(dependencies.getDependencyFor(a).size(), is(1));
+	}
+
 }
