@@ -34,4 +34,12 @@ public class DependencyTest {
 		assertThat(dependencies.getDependencyFor(a), containsInAnyOrder(b, c));
 	}
 
+	@Test
+	public void singleDirectTransitiveDependencies() throws Exception {
+		Dependencies dependencies = new Dependencies();
+		dependencies.addDirect(a, b);
+		dependencies.addDirect(b, c);
+		assertThat(dependencies.getDependencyFor(a), containsInAnyOrder(b, c));
+	}
+
 }
