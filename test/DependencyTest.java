@@ -27,6 +27,13 @@ public class DependencyTest {
 	}
 
 	@Test
+	public void directDependenciesAreNotSymmetric() throws Exception {
+		Dependencies dependencies = new Dependencies();
+		dependencies.addDirect(a, b);
+		assertThat(dependencies.getDependencyFor(b), is(empty()));
+	}
+
+	@Test
 	public void multipleDirectDependencies() throws Exception {
 		Dependencies dependencies = new Dependencies();
 		dependencies.addDirect(a, b);
