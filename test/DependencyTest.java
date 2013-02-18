@@ -14,4 +14,13 @@ public class DependencyTest {
 		assertThat(dependencies.getDependencyFor("A"), is(empty()));
 	}
 
+	@Test
+	public void singleDirectDependency() throws Exception {
+		Dependencies dependencies = new Dependencies();
+		Dependency a = new Dependency("A");
+		Dependency b = new Dependency("B");
+		dependencies.addDirect(a, b);
+		assertThat(dependencies.getDependencyFor(a), contains(b));
+	}
+
 }
